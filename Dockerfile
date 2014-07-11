@@ -1,17 +1,19 @@
 FROM ubuntu
 MAINTAINER Christian Lück <christian@lueck.tv>
 
+ENV HOME /root
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
   nginx php5-fpm supervisor \
   wget unzip patch
 
-# install h5ai and patch configuration
-RUN wget http://release.larsjung.de/h5ai/h5ai-0.24.1.zip
-RUN unzip h5ai-0.24.1.zip -d /usr/share/h5ai
+# install h5ai
+RUN wget http://release.larsjung.de/h5ai/h5ai-0.25.2.zip
+RUN unzip h5ai-0.25.2.zip -d /usr/share/h5ai
 
 # patch h5ai because we want to deploy it ouside of the document root and use /var/www as root for browsing
-ADD App.php.patch App.php.patch
-RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/server/php/inc/ -i /App.php.patch && rm App.php.patch
+ADD setup.patch setup.patch
+RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/server/ -i /setup.patch && rm setup.patch
 
 ADD options.json.patch options.json.patch
 RUN patch -p1 -u -d /usr/share/h5ai/_h5ai/conf/ -i /options.json.patch && rm options.json.patch
