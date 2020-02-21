@@ -1,0 +1,16 @@
+Index: server/php/inc/setup.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/php/inc/setup.php	(revision )
++++ server/php/inc/setup.php	(revision )
+@@ -59,7 +59,7 @@
+ 	define("APP_PATH", normalize_path(dirname(dirname(dirname(dirname(__FILE__)))), false));
+ 
+ 	define("ROOT_HREF", normalize_path(dirname(APP_HREF), true));
+-	define("ROOT_PATH", normalize_path(dirname(APP_PATH), false));
++	define("ROOT_PATH", normalize_path('/var/www', false));
+ 
+ 	$uri_parts = parse_url(getenv("REQUEST_URI"));
+ 	$current_href = normalize_path($uri_parts["path"], true);
